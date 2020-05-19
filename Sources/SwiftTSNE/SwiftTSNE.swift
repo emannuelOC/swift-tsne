@@ -5,6 +5,14 @@ public struct Tsne {
     
     let log = OSLog(subsystem: "SwiftTSNE", category: String(describing: "Tsne"))
     
+    public func transform(data: [[Double]],
+                          maxIterations: Int = 300,
+                          learningRate: Double = 0.01,
+                          completion: ([[Double]]) -> Void) {
+        let result = transform(data: data, maxIterations: maxIterations, learningRate: learningRate)
+        completion(result)
+    }
+    
     public func transform(data: [[Double]], maxIterations: Int = 300, learningRate: Double = 0.01) -> [[Double]] {
         
         // step 1: compute pairwise affinities (not controlling perplexity though)

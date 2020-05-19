@@ -3,6 +3,8 @@ import os.log
 
 public struct Tsne {
     
+    public init() {}
+    
     let log = OSLog(subsystem: "SwiftTSNE", category: String(describing: "Tsne"))
     
     public func transform(data: [[Double]],

@@ -10,9 +10,15 @@ public struct Tsne {
     public func transform(data: [[Double]],
                           maxIterations: Int = 300,
                           learningRate: Double = 0.01,
-                          completion: ([[Double]]) -> Void) {
-        let result = transform(data: data, maxIterations: maxIterations, learningRate: learningRate)
-        completion(result)
+                          completion: @escaping ([[Double]]) -> Void) {
+        let queue = DispatchQueue(label: "processing",
+                                  qos: .userInitiated)
+        queue.async {
+            let result = self.transform(data: data, maxIterations: maxIterations, learningRate: learningRate)
+            DispatchQueue.main.async {
+                completion(result)
+            }
+        }
     }
     
     public func transform(data: [[Double]], maxIterations: Int = 300, learningRate: Double = 0.01) -> [[Double]] {
@@ -96,7 +102,6 @@ public struct Tsne {
                     }
                 }
             }
-            
             
             os_log(.info, log: log, "Kullback Leibler divergence: %{PUBLIC}@", "\(error)")
             
